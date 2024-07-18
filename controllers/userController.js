@@ -4,7 +4,7 @@ import sendEmail from '../middlewares/sendEmail.js';
 
 export const SignUp = async (req, res, next) => {
   try {
-    const { Name, email, Password } = req.body;
+    const { FirstName,LastName, email, Password} = req.body;
 
     console.log("SignUp request received with body:", req.body); // Add logging for debugging
 
@@ -16,15 +16,17 @@ export const SignUp = async (req, res, next) => {
       const hashedPassword = bcryptjs.hashSync(Password, 10);
 
       const newUser = new UserModel({
-        Name: Name,
+        FirstName: FirstName,
+        LastName: LastName,
         email: email,
         Password: hashedPassword,
       });
 
       const savedUser = await newUser.save();
 
-      const subject = "Welcome to MyBrand";
-      const message = "You have signed up successfully";
+      // Use the Name to personalize the email
+      const subject = `Welcome to OpportunityTank`;
+      const message = `Dear ${FirstName},\n\nYou have successfully created your account! Thank you for joining the large community of OpportunityTank. We are happy to welcome you aboad!\n\n\nIf you need to continue as an employer reach out to this email for more clarification email:kl@opportunitytank.com`;
 
       await sendEmail(email, subject, message);
       return res.status(200).json({ message: "Account created!", savedUser });
@@ -53,26 +55,45 @@ export const SignIn = async (req, res, next) => {
     }
 
     res.status(200).json({ message: "You signed in successfully", user: validUser });
-    console.log(validUser);
+    
   } catch (error) {
     console.error(error);
     res.status(500).send(error.message);
   }
 };
+
 export const getUsers = async (req, res, next) => {
   try {
-    var allUsers = await UserModel.find({});
-    if(!allUsers){
+    const allUsers = await UserModel.find({});
+    if(!allUsers || allUsers.length === 0){
       return res.status(404).json({
-        
-        message:"No users found!"
+        message: "No users found!"
       });
-    } else
-    res.status(200).send({
-      allUsers
-    });
+    } else {
+      res.status(200).send({
+        allUsers
+      });
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).send(error);
   }
-};
+}
+
+export const updateUser = async (req, res) => {
+  try {
+    console.log(req.body, req.params.id);
+    var updatedUser = await UserModel.findByIdAndUpdate({ _id: req.params.id }, req.body);
+    if(updatedUser === null){
+      return res.status(404).json({message: "User not found"}) 
+    }
+    var user = await UserModel.findById(updatedUser._id);
+    res.status(201).json({
+      message: 'User updated successfully',
+      user
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.message);
+  }
+};;

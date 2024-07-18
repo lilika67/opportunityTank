@@ -1,7 +1,11 @@
 import { Schema, model } from 'mongoose';
 
 const UserSchema = new Schema({
-    Name: {
+    FirstName: {
+        type: String, 
+        required: true,
+    },
+    LastName: {
         type: String, 
         required: true,
     },
@@ -12,12 +16,14 @@ const UserSchema = new Schema({
         type: String, 
         required: true,
     },
+    
+
 
     
     role:{
         type: String,
-        enum: ["visitor","admin"],
-        default: "visitor"
+        enum: ["talent","admin","employer"],
+        default: "talent"
 
     },
 
