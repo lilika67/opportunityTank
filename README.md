@@ -23,7 +23,7 @@ The OpportunityTank Backend Application is a robust and scalable solution design
 
 -Clone the repo **git clone https://github.com/lilika67/opportunityTank.git**
 
--Install Yarn packages **npm run install**
+-Install packages **npm run install**
 
 -Create the environmental variable .env  **i.e PORT:8000; MONGODB_URL: mongodb url**
 
