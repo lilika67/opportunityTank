@@ -21,7 +21,7 @@ The OpportunityTank Backend Application is a robust and scalable solution design
 
 **Installation**
 
--Clone the repo **git clone git@github.com:lilika67/opportunityTank.git**
+-Clone the repo **git clone https://github.com/lilika67/opportunityTank.git**
 
 -Install Yarn packages **npm run install**
 
