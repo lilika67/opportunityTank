@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 
 app.get("/", (req, res) => {
   return res.status(200).json({
-    message: "Welcome to lactoMama website",
+    message: "Welcome to opportunityTank website",
   });
 });
 
